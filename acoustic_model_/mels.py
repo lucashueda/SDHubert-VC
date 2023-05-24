@@ -28,19 +28,22 @@ def process_wav(in_path, out_path):
 def preprocess_dataset(args):
     args.out_dir.mkdir(parents=True, exist_ok=True)
 
-    futures = []
-    executor = ProcessPoolExecutor(max_workers=cpu_count())
+    #futures = []
+    #executor = ProcessPoolExecutor(max_workers=cpu_count())
     print(f"Extracting features for {args.in_dir}")
+    lengths = []
     for in_path in args.in_dir.rglob("*.wav"):
         relative_path = in_path.relative_to(args.in_dir)
         out_path = args.out_dir / relative_path.with_suffix("")
         out_path.parent.mkdir(parents=True, exist_ok=True)
-        futures.append(executor.submit(process_wav, in_path, out_path))
+        _, l = process_wav(in_path, out_path)
+        lengths.append(l)
+        #futures.append(executor.submit(process_wav, in_path, out_path))
 
-    results = [future.result() for future in tqdm(futures)]
+    #results = [future.result() for future in tqdm(futures)]
 
     lengths = {path.stem: length for path, length in results}
-    frames = sum(lengths.values())
+    frames = sum(lengths)
     frame_shift_ms = 160 / 16000
     hours = frames * frame_shift_ms / 3600
     print(f"Wrote {len(lengths)} utterances, {frames} frames ({hours:.2f} hours)")
