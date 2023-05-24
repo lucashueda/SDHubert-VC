@@ -22,4 +22,4 @@ This repository is based on official ([github:Soft-VC](https://github.com/bshall
 
 - [Hubert code](https://github.com/bshall/hubert)
 - [Acoustic model code](https://github.com/bshall/acoustic-model)
-- [Hifigan code](https://github.com/bshall/hifigan))
+- [Hifigan code](https://github.com/bshall/hifigan)
