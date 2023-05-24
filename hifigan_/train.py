@@ -27,6 +27,7 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
+WORKERS = 4
 BATCH_SIZE = 8
 SEGMENT_LENGTH = 8320
 HOP_LENGTH = 160
@@ -107,7 +108,7 @@ def train_model(rank, world_size, args):
         train_dataset,
         batch_size=BATCH_SIZE,
         sampler=train_sampler,
-        num_workers=8,
+        num_workers=WORKERS,
         pin_memory=True,
         shuffle=False,
         drop_last=True,
@@ -125,7 +126,7 @@ def train_model(rank, world_size, args):
         validation_dataset,
         batch_size=1,
         shuffle=False,
-        num_workers=8,
+        num_workers=WORKERS,
         pin_memory=True,
     )
 

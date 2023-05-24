@@ -26,6 +26,7 @@ logger = logging.getLogger(__name__)
 # Define hyperparameters for training:
 ########################################################################################
 
+WORKERS = 4
 BATCH_SIZE = 64
 LEARNING_RATE = 2e-5
 BETAS = (0.9, 0.98)
@@ -111,7 +112,7 @@ def train(rank, world_size, args):
         collate_fn=train_dataset.collate,
         batch_size=BATCH_SIZE,
         sampler=train_sampler,
-        num_workers=8,
+        num_workers=WORKERS,
         pin_memory=True,
         shuffle=False,
         drop_last=True,
@@ -125,7 +126,7 @@ def train(rank, world_size, args):
         validation_dataset,
         batch_size=1,
         shuffle=False,
-        num_workers=8,
+        num_workers=WORKERS,
         pin_memory=True,
     )
 
